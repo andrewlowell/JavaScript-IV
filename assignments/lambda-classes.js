@@ -23,6 +23,16 @@ class Instructor extends Person {
   grade(student, subject) {
     console.log(`${student.name} receives a perfect score on ${subject}`);
   }
+  changeGrade(student) {
+    student.grade = student.grade + Math.floor(Math.random() * 100) - Math.floor(Math.random() * 100);
+    if (student.grade < 1) {
+      student.grade = 1;
+    }
+    if (student.grade > 100) {
+      student.grade = 100;
+    }
+    console.log(`${student.name}'s grade is now ${student.grade}`);
+  }
 }
 class Student extends Person {
   constructor(studentAttrs) {
@@ -30,6 +40,7 @@ class Student extends Person {
     this.previousBackground = studentAttrs.previousBackground;
     this.className = studentAttrs.className;
     this.favSubjects = studentAttrs.favSubjects;
+    this.grade = Math.floor(Math.random() * 100);
   }
   listsSubjects() {
     this.favSubjects.forEach(function(c) {
@@ -41,6 +52,15 @@ class Student extends Person {
   }
   sprintChallenge(subject) {
     console.log(`${this.name} has begun sprint challenge on ${subject}`);
+  }
+  graduate() {
+    if (this.grade > 70) {
+      console.log(`${this.name} graduated with a ${this.grade}%!`);
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }
 class ProjectManager extends Instructor {
@@ -69,7 +89,7 @@ const andrew = new Student({
 const jake = new ProjectManager({
   name: 'Jake',
   age: 2349,
-  location: 'Beyond yon mountains',
+  location: 'beyond yon mountains',
   gender: 'M',
   specialty: 'wooing women with slicked-back hair',
   favLanguage: 'love',
@@ -87,3 +107,7 @@ jake.demo('dirty dancing');
 jake.grade(andrew, 'hummus making');
 jake.standUp('WEB17HELP');
 jake.debugsCode(andrew, 'training an AI to destroy all human life');
+
+while (!andrew.graduate()) {
+  jake.changeGrade(andrew);
+}
